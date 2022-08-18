@@ -67,7 +67,7 @@ export const deleteSpot = (id)=> async dispatch => {
 
 
 export const editSpot = (id, payload) => async dispatch => {
-    console.log('inside EditSpot thunk creator')
+    // console.log('inside EditSpot thunk creator')
     let response = await csrfFetch(`/api/spots/${id}`, {
         method:'PATCH',
         headers:{'Content-Type': 'application/json'},
@@ -75,13 +75,13 @@ export const editSpot = (id, payload) => async dispatch => {
     })
     if (response.ok){
         const spot = await response.json()
-        dispatch(edit(id,spot))
+        dispatch(edit(spot))
     }
 }
 
 // payload = object SUBMITTED from form
 export const createSpot = (payload) => async dispatch => {
-    console.log('inside CreateSpot thunk creator')
+    // console.log('inside CreateSpot thunk creator')
     let response = await csrfFetch('/api/spots', {
         method:'POST',
         headers:{'Content-Type': 'application/json'},
@@ -111,16 +111,12 @@ export const getSpots = () => async dispatch => {
     const response = await fetch('/api/spots');
     if (response.ok){
         let spots = await response.json()
-        // for each spot retrieved, the id can be used to get the
-        // /api/spots/:spotId/review endpoint's reviews data
-        // console.log('spots')
         let spotIdList = spots.spots.map(spot=> spot.id)
-        // let newSpots = spots.toJSON()
         for (let i = 0; i< spotIdList.length; i++){
-            let spotId = i+1
-            let response2 = await fetch(`/api/spots/${spotId}/reviews`)
+            let realSpotId = spotIdList[i]
+            let response2 = await fetch(`/api/spots/${realSpotId}/reviews`)
             // get avgStarRating for each /api/spots/:spotId
-            let response3 = await fetch(`/api/spots/${spotId}`)
+            let response3 = await fetch(`/api/spots/${realSpotId}`)
             if (response2.ok && response3.ok) {
                 let reviewsObj = await response2.json()
                 let spotDetailsObj = await response3.json()
@@ -133,11 +129,29 @@ export const getSpots = () => async dispatch => {
                 spots.spots[i].avgStarRating = avgRating
             }
         }
+
+
+
+        // let newSpots = {...spots}
+        // let scores = []
+        // let numReviews = []
+        // for (let i=0; spots.spots.length; i++){
+        //     newSpots.spots[i].reviews = {}
+        //     numReviews.push(spots.spots[i].Reviews.length)
+        //     scores[i]=0
+        //     for (let j=0; spots.spots[i].Reviews.length; j++){
+        //         let review = spots.spots[i].Reviews[j]
+        //         if (review){
+        //             newSpots.spots[i].reviews[review.id] = review
+        //             scores[i]= scores[i]+ spots.spots[i].Reviews[j].stars
+        //         }
+        //     }
+        //     newSpots[i].avgStarRating = (scores[i]/numReviews[i]).toFixed(2)
+        // }
+        // dispatch(load(newSpots))
         dispatch(load(spots));
     }
 }
-
-
 
 const initialState = {}
 const spotReducer = (state= initialState, action) => {
@@ -171,7 +185,7 @@ const spotReducer = (state= initialState, action) => {
             // }
             let allSpots ={}
             action.payload.spots.forEach(spot => allSpots[spot.id] = spot)
-            console.log('all spots object (with reviews):',allSpots)
+            // console.log('all spots object (with reviews):',allSpots)
             return {...state, ...allSpots}
         }
         case DELETE_SPOT: {
@@ -188,12 +202,14 @@ const spotReducer = (state= initialState, action) => {
             const newState = {...state}
             newState[action.spot.id] =action.spot
             // newState = {1: {id:1, ownerId:1,...}}
-            console.log('new state in get spot data:', newState)
+            // console.log('new state in get spot data:', newState)
             return newState
         }
         case UPDATE_SPOT: {
             const newState = {...state}
+            // const newState= JSON.parse(JSON.stringify(state))
             newState[action.spot.id] = action.spot
+            // console.log('new state for updating spot:', newState)
             return newState
         }
         default:

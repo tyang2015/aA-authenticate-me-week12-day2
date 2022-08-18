@@ -35,7 +35,15 @@ const validateSignup = [
   ];
 
 router.get('/bookings', requireAuth, async (req, res, next)=>{
-  let bookings = await Booking.findAll({include: {model:Spot}, where: {userId: req.user.id}})
+  let bookings = await Booking.findAll({include: {model:Spot, include: {model:Image}}, where: {userId: req.user.id}})
+  // let newbookings = bookings.toJSON()
+  // let spotIds = bookings.map(booking => booking.Spot.id)
+  // let images = await Image.findAll({where: {[Op.in] :spotIds}})
+
+  // for (let i=0; i<bookings.length; i++){
+  //   let booking = bookings[i]
+  //   if (booking.Spot.id === )
+  // }
   res.json({bookings})
 });
 
@@ -69,7 +77,7 @@ router.post(
     validateSignup,
     async (req, res, next) => {
       const { email, password, firstName, lastName } = req.body;
-      const userObj = {}
+      // const userObj = {}
 
       // first check if email is already in DB
       let record = await User.findAll({where:{email}})
@@ -88,22 +96,20 @@ router.post(
       }
 
       const user = await User.signup({ email, firstName, lastName, password });
-      await setTokenCookie(res, user);
+      setTokenCookie(res, user);
 
-      // console.log('user object:', user)
-
-      userObj.id = user.id
-      userObj.firstName = user.firstName
-      userObj.lastName = user.lastName
-      userObj.email = user.email
-      userObj.token = ''
+      // userObj.id = user.id
+      // userObj.firstName = user.firstName
+      // userObj.lastName = user.lastName
+      // userObj.email = user.email
+      // userObj.token = ''
 
       if (user){
         res.statusCode=200
         res.setHeader('Content-Type', 'application/json')
-        return res.json({
-          userObj
-        });
+        return res.json(
+          user
+        );
       }
 
       // if incorrect inputs
