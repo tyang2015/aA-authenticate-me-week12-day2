@@ -16,6 +16,7 @@ import SpotBookings from "./components/SpotBookings";
 import CreateBookingForm from "./components/CreateBookingForm";
 import EditBookingForm from "./components/EditBookingForm";
 import CreateReviewForm from "./components/CreateReviewForm";
+import EditReviewForm from "./components/EditReviewForm";
 function App() {
   const dispatch = useDispatch();
   // // array form

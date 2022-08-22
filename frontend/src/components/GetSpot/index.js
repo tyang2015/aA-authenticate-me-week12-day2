@@ -194,6 +194,11 @@ const GetSpot = ({spots}) => {
                                         </NavLink>
                                     </button>
                                 )}
+                                <button className="spot-footer-button">
+                                    <NavLink className="navlink" exact to={`/spots/${spotId}/reviews/new`}>
+                                        Write a review
+                                    </NavLink>
+                                </button>
                             </div>
                         </div>
                     </>

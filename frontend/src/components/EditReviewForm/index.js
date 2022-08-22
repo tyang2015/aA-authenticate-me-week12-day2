@@ -11,7 +11,7 @@ const EditReviewForm = () => {
     //     stars: 1
     // }
     return (
-        <ReviewForm spotId= {spotId} formType={"Edit Review"} review={review}/>
+        <ReviewForm formType={"Edit Review"} review={review}/>
     )
 }
 
