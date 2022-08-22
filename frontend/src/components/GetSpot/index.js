@@ -3,6 +3,7 @@ import React,{useState, useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux";
 import {deleteSpot } from "../../store/spot";
 import './GetSpot.css'
+import GetReviews from "../GetReviews";
 import SpotBookings from "../SpotBookings";
 
 // you can key in spots, no need for reducer
@@ -10,8 +11,6 @@ const GetSpot = ({spots}) => {
     const {spotId} = useParams();
     const dispatch = useDispatch();
     // const history = useHistory();
-
-
 
     let numReviews;
     const sessionUser = useSelector(state => state.session.user);
@@ -35,7 +34,7 @@ const GetSpot = ({spots}) => {
             alert('You do not have permission to delete spot')
         } else {
             // changed here-- removed await. should handle cascade delete
-            await dispatch(deleteSpot(spotId))
+            dispatch(deleteSpot(spotId))
             alert('successfully deleted!')
             // history.push('/spots')
         }
@@ -199,6 +198,7 @@ const GetSpot = ({spots}) => {
                         </div>
                     </>
                 )}
+                <GetReviews/>
             </div>
         </>
     )

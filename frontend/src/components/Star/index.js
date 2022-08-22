@@ -1,0 +1,3 @@
+const Star = ({filled}) => {
+
+}

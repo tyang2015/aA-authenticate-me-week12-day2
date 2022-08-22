@@ -15,7 +15,7 @@ import UserBookings from "./components/UserBookings";
 import SpotBookings from "./components/SpotBookings";
 import CreateBookingForm from "./components/CreateBookingForm";
 import EditBookingForm from "./components/EditBookingForm";
-
+import CreateReviewForm from "./components/CreateReviewForm";
 function App() {
   const dispatch = useDispatch();
   // // array form
@@ -69,6 +69,12 @@ function App() {
         </Route>
         <Route exact path= "/spots/:spotId/bookings">
           <SpotBookings/>
+        </Route>
+        <Route path= "/spots/:spotId/reviews/new">
+          <CreateReviewForm/>
+        </Route>
+        <Route path= "/reviews/:reviewId">
+          <EditReviewForm/>
         </Route>
         <Route>
           <h2>Page Not Found</h2>
