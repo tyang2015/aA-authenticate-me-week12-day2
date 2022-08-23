@@ -1,0 +1,11 @@
+input[type='radio'] {
+    display: none;
+    background-color: green;
+    border: 10px solid black;
+}
+
+.star{
+    cursor: pointer;
+    transition: color 100ms;
+
+}

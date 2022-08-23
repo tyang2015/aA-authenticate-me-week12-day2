@@ -1,16 +1,21 @@
 import { FaStar } from "react-icons/fa";
 import React from "react"
+import "./Star.css"
 
 
-const Star = ({filled, setRating, value, onClick}) => {
+const Star = ({filled, value, onClick, onMouseEnter, onMouseLeave}) => {
     return (
-        <div>
+        <label>
+            <input type='radio' id='rating' required="required"/>
             <FaStar color={filled? "orange": "lightgray"}
-            onClick
-            onChange={()=> setRating(value)}
-            // value={value}
+                onClick={onClick}
+                // onChange={onClick}
+                value={value}
+                className='star'
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
             />
-        </div>
+        </label>
     )
 }
  export default Star

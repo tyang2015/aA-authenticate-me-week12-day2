@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import  {getSpotReviews}  from "../../store/review";
 import { NavLink, useParams } from "react-router-dom";
 
-
+// BY SPOT
 const GetReviews = () =>{
     let {spotId}= useParams();
     let reviews = useSelector(state=> Object.values(state.reviews))
@@ -33,7 +33,7 @@ const GetReviews = () =>{
                             </>
                         ))}
                     </div>
-                    <NavLink to={`/spots/${spotId}/reviews/new`}>
+                    <NavLink to={`/spots/${spotId}/reviews/new`} reviews={reviews}>
                         Create a Review
                     </NavLink>
                 </div>

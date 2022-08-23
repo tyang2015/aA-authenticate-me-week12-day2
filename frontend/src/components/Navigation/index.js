@@ -57,6 +57,7 @@ function Navigation({ isLoaded }){
       </div>
       <div className='top-right-nav-bar'>
         <div className='feature-links'>
+          <NavLink className={`navlink`}  exact to='/reviews'> View reviews you've written </NavLink>
           <NavLink className={`navlink`}  exact to='/spots/new'> Create a spot </NavLink>
           <NavLink className={`navlink`}  exact to='/users/bookings'> View your bookings </NavLink>
           <NavLink className={`navlink`}  exact to= '/'> See all spots </NavLink>

@@ -53,7 +53,7 @@ router.get('/reviews', requireAuth, async (req, res, next)=>{
   let reviewObj = {}
   let reviews = await Review.findAll({
     include: [{model: User}, {model: Spot}, {model: Image, attributes: ['url']}],
-    where: {id: req.user.id}
+    where: {userId: req.user.id}
   })
   reviewObj.Reviews = reviews
   res.json(reviewObj)

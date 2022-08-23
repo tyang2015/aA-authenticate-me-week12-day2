@@ -17,6 +17,7 @@ import CreateBookingForm from "./components/CreateBookingForm";
 import EditBookingForm from "./components/EditBookingForm";
 import CreateReviewForm from "./components/CreateReviewForm";
 import EditReviewForm from "./components/EditReviewForm";
+import GetUserReviews from "./components/GetUserReviews";
 function App() {
   const dispatch = useDispatch();
   // // array form
@@ -76,6 +77,9 @@ function App() {
         </Route>
         <Route path= "/reviews/:reviewId">
           <EditReviewForm/>
+        </Route>
+        <Route exact path= "/reviews">
+          <GetUserReviews/>
         </Route>
         <Route>
           <h2>Page Not Found</h2>
