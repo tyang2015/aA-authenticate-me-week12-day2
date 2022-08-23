@@ -66,12 +66,13 @@ export const createSpotReview = (spotId,payload) => async dispatch => {
 
 export const editReview= (payload) => async dispatch => {
     const response = await csrfFetch(`/api/reviews/${payload.id}`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(payload)
     })
     if (response.ok){
         const review = await response.json()
+        console.log('updated review in thunk:', review)
         dispatch(update(review))
     }
 }

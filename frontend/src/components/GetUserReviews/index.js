@@ -2,6 +2,7 @@ import React,{useState, useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux";
 import "./GetUserReviews.css"
 import { getUserReviews } from "../../store/review";
+import { NavLink } from "react-router-dom";
 
 const GetUserReviews = () => {
     const dispatch = useDispatch();
@@ -33,9 +34,16 @@ const GetUserReviews = () => {
                 <div className="past-reviews-content-container">
                     {userReviews.length>0 && userReviews.map(review=>(
                         <div key={review.id} className="review-card-container">
-                            <h3>Review for Owner {review.Spot.ownerId}</h3>
+                            {review && review.Spot && (
+                                <h3>Review for Owner {review.Spot.ownerId}</h3>
+                            )}
                             <p>{review.review}</p>
                             <p>{review.createdAt}</p>
+                            <div className= 'edit-review-button-container'>
+                                <NavLink to={`/reviews/${review.id}`}>
+                                    <button className='edit-review-button'>Edit</button>
+                                </NavLink>
+                            </div>
                         </div>
                     ))}
                 </div>

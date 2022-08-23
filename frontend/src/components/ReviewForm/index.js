@@ -12,8 +12,10 @@ import { createSpotReview, editReview } from "../../store/review"
 // in both cases:
 const ReviewForm = ({reviews,reviewObj, spotId, formType}) => {
     const dispatch = useDispatch();
+    const history= useHistory();
     const sessionUser = useSelector(state => state.session.user);
     let [review, setReview] = useState('')
+
     const [stars, setStars] = useState(null);
     const [hasSubmitted, setHasSubmitted] = useState(false)
     const [hover, setHover] = useState(null);
@@ -21,40 +23,47 @@ const ReviewForm = ({reviews,reviewObj, spotId, formType}) => {
     // let reviewArr= Object.values(reviews)
     // console.log('reviews in form:', reviews)
     // console.log('current user id:', sessionUser.id)
+    // console.log('sessionUser in review form:', sessionUser)
+    // if (!sessionUser) history.push('/')
     useEffect(()=>{
         let errors =[]
         if (!stars || stars<1 || stars>5) errors.push("Star rating must be integer from 1 to 5")
-        for (let i = 0; i< reviews.length;i++){
-            let currReview= reviews[i]
-            if(sessionUser.id === currReview.userId){
-                errors.push("User already has a review for this spot")
+        if (reviews){
+            for (let i = 0; i< reviews.length;i++){
+                let currReview= reviews[i]
+                if (!sessionUser){
+                    // alert('please login to write a review')
+                    return
+                }
+                else if (sessionUser.id === currReview.userId){
+                    errors.push("User already has a review for this spot")
+                }
             }
         }
         if (review.length>500) errors.push("Review must be less than 500 characters")
         setValidationErrors(errors)
 
-    }, [review, reviews, stars])
-
-    useEffect(()=>{
-        console.log('review..:', review)
-    }, [review])
+    }, [review, stars])
 
     const handleSubmit =e=> {
         e.preventDefault();
         // alert('testing submit, not finalized')
         setHasSubmitted(true)
+        if (!sessionUser){
+            alert('Please login to write a review')
+            return
+        }
         if (validationErrors.length>0){
             alert("Cannot submit review form!")
             return
         }
-        // console.log('review state var:', review)
+
         reviewObj = {
             ...reviewObj,
             stars,
             review
         }
-        console.log('review object upon submission:', reviewObj)
-
+        console.log('review obj after revision:', reviewObj)
         if (formType==="Create Review"){
             dispatch(createSpotReview(spotId, reviewObj))
             alert('successfully submitted review!')
@@ -64,6 +73,7 @@ const ReviewForm = ({reviews,reviewObj, spotId, formType}) => {
             return
         } else {
             // console.log('TO DO')
+            console.log('in correct formType')
             dispatch(editReview(reviewObj))
             alert('review has been updated!')
             setHasSubmitted(false)

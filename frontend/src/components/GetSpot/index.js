@@ -10,7 +10,7 @@ import SpotBookings from "../SpotBookings";
 const GetSpot = ({spots}) => {
     const {spotId} = useParams();
     const dispatch = useDispatch();
-    // const history = useHistory();
+    const history = useHistory();
 
     let numReviews;
     const sessionUser = useSelector(state => state.session.user);
@@ -52,9 +52,14 @@ const GetSpot = ({spots}) => {
         showAddressMenu === true? setShowAddressMenu(false): setShowAddressMenu(true)
         // setShowAddressMenu(true)
     }
-    // useEffect(()=>{
-    //     set
-    // }, [showLngMenu])
+    // const handleReviewClick = (e) =>{
+    //     if (!sessionUser){
+    //         // QUESTION:WHY DOESNT THIS WORK?
+    //         e.preventDefault()
+    //         alert('Please login to write review')
+    //         return
+    //     }
+    // }
 
     return (
         <>
@@ -194,11 +199,12 @@ const GetSpot = ({spots}) => {
                                         </NavLink>
                                     </button>
                                 )}
-                                <button className="spot-footer-button">
+                                <button className="spot-footer-button" >
                                     <NavLink className="navlink" exact to={`/spots/${spotId}/reviews/new`}>
                                         Write a review
                                     </NavLink>
                                 </button>
+
                             </div>
                         </div>
                     </>

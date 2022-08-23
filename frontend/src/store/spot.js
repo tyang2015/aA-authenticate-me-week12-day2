@@ -111,45 +111,31 @@ export const getSpots = () => async dispatch => {
     const response = await fetch('/api/spots');
     if (response.ok){
         let spots = await response.json()
-        let spotIdList = spots.spots.map(spot=> spot.id)
-        for (let i = 0; i< spotIdList.length; i++){
-            let realSpotId = spotIdList[i]
-            let response2 = await fetch(`/api/spots/${realSpotId}/reviews`)
-            // get avgStarRating for each /api/spots/:spotId
-            let response3 = await fetch(`/api/spots/${realSpotId}`)
-            if (response2.ok && response3.ok) {
-                let reviewsObj = await response2.json()
-                let spotDetailsObj = await response3.json()
-                let avgRating = spotDetailsObj.avgStarRating
-                // spots.spots[i].reviews = reviewsObj.reviews
-                spots.spots[i].reviews ={}
-                reviewsObj.reviews.forEach(review=> {
-                    spots.spots[i].reviews[review.id] = review
-                })
-                spots.spots[i].avgStarRating = avgRating
-            }
-        }
-
-
-
-        // let newSpots = {...spots}
-        // let scores = []
-        // let numReviews = []
-        // for (let i=0; spots.spots.length; i++){
-        //     newSpots.spots[i].reviews = {}
-        //     numReviews.push(spots.spots[i].Reviews.length)
-        //     scores[i]=0
-        //     for (let j=0; spots.spots[i].Reviews.length; j++){
-        //         let review = spots.spots[i].Reviews[j]
-        //         if (review){
-        //             newSpots.spots[i].reviews[review.id] = review
-        //             scores[i]= scores[i]+ spots.spots[i].Reviews[j].stars
+        dispatch(load(spots))
+        // try{
+        //     let spotIdList = spots.spots.map(spot=> spot.id)
+        //     for (let i = 0; i< spotIdList.length; i++){
+        //         let realSpotId = spotIdList[i]
+        //         let response2 = await fetch(`/api/spots/${realSpotId}/reviews`)
+        //         // get avgStarRating for each /api/spots/:spotId
+        //         let response3 = await fetch(`/api/spots/${realSpotId}`)
+        //         if (response2.ok && response3.ok) {
+        //             let reviewsObj = await response2.json()
+        //             let spotDetailsObj = await response3.json()
+        //             let avgRating = spotDetailsObj.avgStarRating
+        //             // spots.spots[i].reviews = reviewsObj.reviews
+        //             spots.spots[i].reviews ={}
+        //             reviewsObj.reviews.forEach(review=> {
+        //                 spots.spots[i].reviews[review.id] = review
+        //             })
+        //             spots.spots[i].avgStarRating = avgRating
         //         }
         //     }
-        //     newSpots[i].avgStarRating = (scores[i]/numReviews[i]).toFixed(2)
         // }
-        // dispatch(load(newSpots))
-        dispatch(load(spots));
+        // catch {
+        //     // if spots
+        //     dispatch(load(spots));
+        // }
     }
 }
 
@@ -157,32 +143,6 @@ const initialState = {}
 const spotReducer = (state= initialState, action) => {
     switch (action.type){
         case GET_SPOTS: {
-            // let allSpots = {}
-            // console.log('spot data array from reducer:', action.payload.spots)
-            // action.payload.spots.forEach(spot => {
-            //     allSpots[spot.id] = spot
-            //     // allSpots[spot.id].reviews = JSON.stringify(spot.reviews)
-            // })
-            // for (let i = 0; i< action.payload.spots.length; i++) {
-            //     let spot = action.payload.spots[i]
-            //     allSpots[spot.id] = spot
-            //     // console.log(`review for spot ${i+1}: ${allSpots[spot.id].reviews}`)
-            //     console.log("reviews for a single spot:", allSpots[spot.id].reviews)
-            //     // instantiate it
-            //     const oldReviewObj= {}
-            //     oldReviewObj[action.payload.spots[i].reviews[0].id] = action.payload.spots[i].reviews[0]
-            //     for (let j=0; j< action.payload.spots[i].reviews.length; j++){
-            //         let review = action.payload.spots[i].reviews[j]
-            //         const newReviewObj={}
-            //         // if (j===0){
-            //             oldReviewObj[review.id] = {...oldReviewObj, review}
-            //         // }
-            //         // else {
-            //             newReviewObj[review.id]= review
-            //         // }
-            //         allSpots[spot.id].reviews = {...oldReviewObj, ...newReviewObj}
-            //     }
-            // }
             let allSpots ={}
             action.payload.spots.forEach(spot => allSpots[spot.id] = spot)
             // console.log('all spots object (with reviews):',allSpots)

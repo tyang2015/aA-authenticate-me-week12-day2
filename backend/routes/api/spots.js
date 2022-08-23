@@ -670,30 +670,44 @@ router.get('/' , validateSpotQuery,async(req, res, next)=>{
 
     // if no pairs
     else {
-         spots = await Spot.findAll({
+         oldSpots = await Spot.findAll({
             where,
             ...pagination,
-            include: {model:Review}
+            include:[{model:Review}],
+            // plain:true,
+            // nest:true,
+            // include: {model:Review, attributes: ["id", "userId","spotId", "review", "stars", "createdAt", "updatedAt",
+            //     [sequelize.fn('AVG', sequelize.col('stars')), 'avgStarRating']
+            // ]},
         })
+        spots = JSON.parse(JSON.stringify(oldSpots))
+        // res.json(spots)
 
-        // for (let i=0; i<spots.length; i++){
-        //     let spotObj = spots[i]
-        //     // get total number of reviews for each spot
-        //     scores[i] = 0
-        //     numReviews.push(spotObj.Reviews.length)
-        //     for (let j =0; j< spots[i].Reviews.length; j++){
-        //         let review =spots[i].Reviews[j]
-        //         scores[i] = scores[i] + review.stars
-        //     }
-        // }
+        for (let i=0; i<spots.length; i++){
+            // console.log('spots at ')
+            // console.log('spots at i:', spots[i])
+            let spotObj = spots[i]
+            // get total number of reviews for each spot
+            scores[i] = 0
+            numReviews.push(spotObj.Reviews.length)
+            for (let j =0; j< spots[i].Reviews.length; j++){
+                let review =spots[i].Reviews[j]
+                scores[i] = scores[i] + review.stars
+            }
+        }
         // let newSpots = [...spots]
-        // for (let i=0; i< newSpots.length; i++){
-        //     // let spot = {...newSpots[i]}
-        //     // spot.test = 1
-        //     newSpots[i].avgStarRating = 2
-        // }
-    }
+        // let newSpots = JSON.parse(JSON.stringify(spots))
+        console.log('scores:', scores)
+        console.log('numReviews:', numReviews)
+        for (let i=0; i< spots.length; i++){
+            // let spot = {...spots[i]}
+            spots[i].avgStarRating = (scores[i]/numReviews[i]).toFixed(2)
+            // console.log('\n new spot obj:', newSpots[i], "\n\n")
+        }
 
+        // res.json({newSpots})
+    }
+    // console.log('spots:', spots)
     res.json({
         spots
     })
