@@ -18,8 +18,8 @@ function LoginForm({loginModal, setLoginModal}) {
     // console.log('inside handle submit')
     setHasSubmitted(true)
     setErrors([]);
-    let response =  dispatch(sessionActions.login({ email, password }))
-    .then(
+    return dispatch(sessionActions.login({ email, password }))
+    .then(()=>
       setLoginModal(false)
     )
     .catch(

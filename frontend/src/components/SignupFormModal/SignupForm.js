@@ -24,17 +24,15 @@ function SignupForm({setSignupModal}) {
     if (password === confirmPassword) {
       setErrors([]);
       return dispatch(sessionActions.signup({ email, firstName, lastName, password }))
-        .then(
+        .then(()=>
           setSignupModal(false)
         )
         .catch(async (res) => {
           const data = await res.json();
-        //   console.log('data')
-          // console.log('data from signup form:', data)
-          // i do get the right errors, but it is an object... convert to array
+          console.log('data:', data)
           if (data && data.errors) setErrors(Object.values(data.errors));
+
           // console.log('errors on signup:', errors)
-          // console.log('session user,',sessionUser)
         });
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);

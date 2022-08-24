@@ -697,12 +697,11 @@ router.get('/' , validateSpotQuery,async(req, res, next)=>{
         }
         // let newSpots = [...spots]
         // let newSpots = JSON.parse(JSON.stringify(spots))
-        console.log('scores:', scores)
-        console.log('numReviews:', numReviews)
+        // console.log('scores:', scores)
+        // console.log('numReviews:', numReviews)
         for (let i=0; i< spots.length; i++){
             // let spot = {...spots[i]}
             spots[i].avgStarRating = (scores[i]/numReviews[i]).toFixed(2)
-            // console.log('\n new spot obj:', newSpots[i], "\n\n")
         }
 
         // res.json({newSpots})
