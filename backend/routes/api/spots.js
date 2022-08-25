@@ -394,24 +394,24 @@ router.get('/:spotId/bookings', requireAuth, async(req, res, next)=>{
         })
     }
     // if im checking the bookings for my own place
-    for (let i = 0; i<bookings.length; i++){
-      let booking = bookings[i].toJSON()
-      if (booking.Spot.ownerId === req.user.id){
-        // console.log('owner is true')
-        delete booking.Spot
-      }
-      else {
-        // booking a different place
-        delete booking.Spot
-        delete booking.User
-        for (key in booking){
-          if (key!='spotId' && key!='startDate' && key!= 'endDate'){
-            delete booking[key]
-          }
-        }
-      }
-      bookings[i] = booking
-    }
+    // for (let i = 0; i<bookings.length; i++){
+    //   let booking = bookings[i].toJSON()
+    //   if (booking.Spot.ownerId === req.user.id){
+    //     // console.log('owner is true')
+    //     delete booking.Spot
+    //   }
+    //   else {
+    //     // booking a different place
+    //     delete booking.Spot
+    //     delete booking.User
+    //     for (key in booking){
+    //       if (key!='spotId' && key!='startDate' && key!= 'endDate'){
+    //         delete booking[key]
+    //       }
+    //     }
+    //   }
+    //   bookings[i] = booking
+    // }
 
     res.json({bookings})
   })

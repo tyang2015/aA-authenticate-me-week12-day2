@@ -4,10 +4,22 @@ const GET_BOOKINGS = 'bookings/getBookings';
 const CREATE_BOOKING = 'bookings/createBooking';
 const EDIT_BOOKING= 'bookings/editBooking';
 const DELETE_BOOKING= 'bookings/deleteBooking';
+// ADDED HERE
+const RESET_BOOKINGS = 'bookings/resetBookings'
+
+// added here
+const GET_SPOT_BOOKINGS = 'bookings/getSpotBookings';
 
 const load = (payload) => {
     return {
         type: GET_BOOKINGS,
+        payload
+    }
+}
+
+const loadSpotBookings = (payload)=>{
+    return {
+        type: GET_SPOT_BOOKINGS,
         payload
     }
 }
@@ -33,12 +45,29 @@ const remove = (id) => {
     }
 }
 
+// added here
+const reset = (payload) => {
+    return {
+        type: RESET_BOOKINGS,
+        payload
+    }
+}
+
 export const getBookings = () => async dispatch => {
     const response = await csrfFetch(`/api/users/bookings`)
     if (response.ok){
         let bookings = await response.json()
         // console.log('bookings in thunk:', bookings)
         dispatch(load(bookings))
+    }
+}
+
+// ADDED HERE
+export const getSpotBookings =(spotId)=> async dispatch => {
+    const response = await csrfFetch(`/api/spots/${spotId}/bookings`)
+    if (response.ok){
+        let bookings = await response.json()
+        dispatch(loadSpotBookings(bookings))
     }
 }
 
@@ -66,6 +95,14 @@ export const editBooking = (bookingId, payload) => async dispatch => {
         dispatch(edit(booking))
     }
 }
+// added here
+export const resetBookings = () => async dispatch => {
+    const response = await csrfFetch(`/api/users/bookings`)
+    if (response.ok){
+        let bookings = await response.json()
+        dispatch(reset(bookings))
+    }
+}
 
 export const deleteBooking = (bookingId) => async dispatch => {
     const response = await csrfFetch(` /api/spots/bookings/${bookingId}`, {
@@ -88,6 +125,11 @@ const bookingReducer = (state= {}, action) => {
             // console.log('new State:', newState)
             return newState
         }
+        case GET_SPOT_BOOKINGS: {
+            let newState = {}
+            action.payload.bookings.forEach(booking=> newState[booking.id]=booking)
+            return newState
+        }
         case CREATE_BOOKING:{
             let newState = {...state}
             newState[action.booking.id] = action.booking
@@ -103,6 +145,11 @@ const bookingReducer = (state= {}, action) => {
             let newState = JSON.parse(JSON.stringify(state))
             delete newState[action.id]
             // console.log('NEW STATE AFTER DELETE:', newState)
+            return newState
+        }
+        case RESET_BOOKINGS: {
+            let newState= {}
+            // action.payload.bookings.forEach(booking=> newState[booking.id]= booking)
             return newState
         }
         default:

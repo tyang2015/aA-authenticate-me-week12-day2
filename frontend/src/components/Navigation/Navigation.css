@@ -17,8 +17,69 @@ ul.top-nav-bar{
     display:flex;
     justify-content: space-between;
     align-items: center;
-    width:35%;
+    /* width:35%; */
 
+}
+
+/* FOR SEARCH QUERY BOX */
+.search-query-box-outer-container{
+    /* height:80px; */
+    background-color: lightblue;
+    width: 300px;
+    display:flex;
+    justify-content: end;
+    flex-direction: row;
+    border-radius:30px;
+    border: 1px gray solid;
+
+}
+
+.search-button-outer-container{
+    display:flex;
+    align-items: center;
+
+}
+
+.search-query-box-container{
+    display:flex;
+    background-color: coral;
+    width: 90%;
+    justify-content: center;
+    /* border: 1px gray solid; */
+    border-radius: 30px;
+    height: 40px;
+    align-self:center;
+}
+
+.search-query-text-box{
+    background-color: green;
+    display:flex;
+    align-items: center;
+}
+
+.magnifying-glass-icon{
+    display: block;
+    fill: none;
+    height: 12px;
+    width: 12px;
+    stroke: currentcolor;
+    stroke-width: 5.33333;
+    overflow: visible;
+
+}
+
+.search-button-container{
+    background-color: #ff385c;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    height: 32px;
+    width: 32px;
+    cursor:pointer;
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .session-link{
@@ -64,8 +125,6 @@ div.airbnb-icon-container{
     justify-content: center;
     align-items: center;
     margin-left: auto;
-    /* width: 4.05vw; */
-    /* position: relative; */
     border-width: 1px;
     border-style: solid;
     border-color: rgb(235, 235, 235);
@@ -75,7 +134,7 @@ div.airbnb-icon-container{
     list-style: none;
     width: 70px;
     display:flex;
-    flex-flow: row wrap;
+    /* flex-flow: row wrap; */
     /* background-color: green; */
 
 }
