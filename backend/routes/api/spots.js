@@ -209,7 +209,8 @@ router.delete('/bookings/:bookingId', requireAuth, async (req, res,next)=>{
 
     if (!booking){
         req.statusCode = 404
-        res.json({
+        // console.log('fi')
+        return res.json({
             "message": "Booking couldn't be found",
             "statusCode": 404
         })
@@ -218,7 +219,7 @@ router.delete('/bookings/:bookingId', requireAuth, async (req, res,next)=>{
     // authorization required
     if (booking.userId != req.user.id){
         res.statusCode = 403;
-        res.json({
+        return res.json({
             "message": "Forbidden",
             "statusCode": 403
         })
@@ -230,14 +231,20 @@ router.delete('/bookings/:bookingId', requireAuth, async (req, res,next)=>{
     if (today > startingDate){
         // you cannot delete a booking date past start date
         res.statusCode = 400
-        res.json({
-            "message": "Bookings that have been started can't be deleted",
-            "statusCode": 400
-        })
+        console.log('today>startinDate block')
+        try{
+            res.json({
+                "message": "Bookings that have been started can't be deleted",
+                "statusCode": 400
+            })
+        }
+        catch(e){
+            return res.json(e)
+        }
     }
     await booking.destroy()
     res.statusCode = 200
-    res.json({
+    return res.json({
         "message": "Successfully deleted",
         "statusCode": 200
     })

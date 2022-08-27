@@ -3,6 +3,7 @@ import {useParams, useHistory} from "react-router-dom"
 import {useState, useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import { createBooking, editBooking } from "../../store/booking"
+import { getSpots } from "../../store/spot"
 import './BookingForm.css'
 
 
@@ -12,8 +13,13 @@ const BookingForm = ({bookings, formType, booking})=> {
     const history = useHistory()
     const {spotId, bookingId} = useParams();
     const sessionUser = useSelector(state => state.session.user);
-
+    // const spot = useSelector(state=> state.spots[spotId] = Number(spotId))
     const dispatch = useDispatch();
+
+    // useEffect(()=>{
+    //   dispatch(getSpots())
+    // }, [dispatch])
+
     // number strings can be compared
     // CHANGE HERE
     const [startDate, setStartDate] = useState('');
@@ -23,6 +29,7 @@ const BookingForm = ({bookings, formType, booking})=> {
     const allBookings = Object.values(bookings)
 
     let spotBookings;
+    // let spot = spots.filter(spot=> spot.id===Number(spotId))
     if (formType==='Create Booking'){
       spotBookings = allBookings.filter(booking=> booking.spotId === Number(spotId))
     } else {

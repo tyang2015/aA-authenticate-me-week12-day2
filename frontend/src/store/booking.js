@@ -109,7 +109,7 @@ export const resetBookings = () => async dispatch => {
 }
 
 export const deleteBooking = (bookingId) => async dispatch => {
-    const response = await csrfFetch(` /api/spots/bookings/${bookingId}`, {
+    const response = await csrfFetch(`/api/spots/bookings/${bookingId}`, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'}
     })
