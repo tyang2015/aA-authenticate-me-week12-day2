@@ -63,6 +63,11 @@ const BookingForm = ({bookings, formType, booking})=> {
 
     useEffect(()=>{
       let errs=[]
+      let present = new Date();
+      let convertedStartDate = new Date(startDate)
+      console.log('converted start date:', convertedStartDate)
+      console.log('present date:', present)
+      if (convertedStartDate<present) errs.push("Booking date cannot be in the past")
       if (!startDate) errs.push("Please enter valid start date")
       if (!endDate) errs.push("Please enter valid end date")
       if (endDate< startDate) errs.push("endDate cannot come before startDate")
