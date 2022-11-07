@@ -1174,6 +1174,27 @@ Delete an existing booking.
       "statusCode": 400
     }
     ```
+    
+## GET images based on a Spot's id
+
+Get all images based on a spot's id specifically for spot owner
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * URL: /api/spots/:spotId/images
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+  { 
+    images : [... ]
+  }
+  ```
 
 ## Add an Image to a Spot based on the Spot's id
 
@@ -1242,7 +1263,7 @@ Create and return a new image for a review specified by id.
     ```
 
 * Successful Response
-  * Status Code: 200
+  * Status Code: 201
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1282,6 +1303,38 @@ Create and return a new image for a review specified by id.
       "statusCode": 400
     }
     ```
+## UPDATE an Image based on the Spot's id
+Update an existing image
+* Require Authentication: true
+* Require proper authorization: Image must belong to the current user through
+  the image's id
+* Request
+  * Method: PATCH
+  * URL: /api/images/:imageId
+  * Body:
+
+    ```json
+    {
+      "url": "image url"
+    }
+    ```
+* Successful Response
+ * Status Code: 200
+ * Headers:
+   * Content-Type: application/json
+ * Body:
+
+   ```json
+   {
+     "id": 1,
+     "spotId": 1,
+     "url": "image url",
+     "Spot" : {id: ... , ownerId: ... }
+     "createdAt: "date string",
+     "updatedAt: "date string"
+   }
+     ```
+
 
 ## Delete an Image
 
